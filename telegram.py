@@ -19,7 +19,7 @@ def sendMessage(message):
 
 chat_id    = ''
 chat_token = ''
-resp = get_updates()
+resp = get_updates() # chat_id 구하기
 print(resp)
 result = sendMessage("welcome to my telegram message service !!")
 print(result)
