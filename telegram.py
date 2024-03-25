@@ -1,43 +1,25 @@
-#!/usr/bin/env python
-# coding: utf-8
 import requests
-import json
 
 API_URL = "https://api.telegram.org/bot"
 
-class Telegram(object):
+def get_updates():
+    url = API_URL + chat_token + "/getUpdates"
+    resp = requests.get(url)
+    return resp.json()
 
-    def __init__(self, key, chat_id) :
-        self.key = key
-        self.chat_id = chat_id
-        self.markdown = False
-        self.html = False
+def sendMessage(message):
+    url = API_URL + chat_token + "/sendMessage"
+    params = {
+              "chat_id": chat_id,
+              "text": message
+    }
+    resp = requests.post(url, params=params)
+    content = resp.json()
+    return content
 
-    def get_me(self):
-        url = API_URL + self.key + "/getMe"
-        resp = requests.get(url)
-        return resp.json()
-
-    def get_updates(self):
-        url = API_URL + self.key + "/getUpdates"
-        resp = requests.get(url)
-        return resp.json()
-
-    def message(self, message):
-        url = API_URL + self.key + "/sendMessage"
-        params = {
-                  "chat_id": self.chat_id,
-                  "text": message
-        }
-        resp = requests.post(url, params=params)
-        content = resp.json()
-        return content
-
-if __name__ == "__main__":
-    # Load Config File
-    chat_id = ''
-    chat_token = ''
-
-    tg = Telegram(chat_token, chat_id)
-    result = tg.message("welcome to my telegram message service !!")
-    print(result)
+chat_id    = ''
+chat_token = ''
+resp = get_updates()
+print(resp)
+result = sendMessage("welcome to my telegram message service !!")
+print(result)
